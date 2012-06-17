@@ -10,9 +10,12 @@ end
 #   on the same page
 
 Then /I should see "(.*)" before "(.*)"/ do |e1, e2|
-  #  ensure that that e1 occurs before e2.
-  #  page.content  is the entire content of the page as a string.
-  flunk "Unimplemented"
+  regexp = /#{e1}.*#{e2}/m
+  if page.body.respond_to? :should
+    page.body.should =~ regexp
+  else
+    assert page.body =~ regexp
+  end
 end
 
 # Make it easier to express checking or unchecking several boxes at once
