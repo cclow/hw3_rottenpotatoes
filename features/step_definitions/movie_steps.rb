@@ -28,3 +28,10 @@ When /I (un)?check the following ratings: (.*)/ do |uncheck, rating_list|
     end
   end
 end
+
+Then /I should see all of the movies/ do
+  page.has_css?("tbody#movielist tr", count: Movie.count)
+  Movie.all.each do |movie|
+    step %Q|I should see "#{movie.title}"|
+  end
+end
